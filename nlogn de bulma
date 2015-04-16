@@ -1,0 +1,124 @@
+#include <iostream>
+#include <conio.h>
+#include <stdlib.h>
+
+using namespace std;
+int count = 0 ;
+void merge(int * , int , int , int );
+void mergesort( int *ahmet , int lw , int hh ){
+    int mid ;
+    if( lw < hh ){
+        mid = lw + ((hh-lw)/ 2);
+        mergesort ( ahmet , lw , mid );
+        mergesort ( ahmet , mid+1 , hh );
+        merge ( ahmet , lw , mid , hh);
+    }
+}
+void merge( int *ahmet , int lw , int mid , int hh ){
+    int i , j , k ;
+    i = lw ;
+    j = mid + 1  ;
+    if ( ( i <=  j - 1 ) && ( j <= hh ) ){
+        if ( ahmet [ i ] > ahmet [ j ] ){
+            int temp = ahmet [ j ] ;
+            ahmet [ j ] = ahmet [ i ] ;
+            ahmet [ i ] = temp ;
+            j++ ;
+        }
+        else
+            i ++ ;
+    }
+}
+
+int main(){
+	int i = 0,j = 0, n, k, c1, c2, deger;
+	char eh;
+
+
+	cout << "Ahmet : Kac sayi girecek" << endl;
+	cin >> n;
+
+	int * ahmet_num = new (nothrow) int[n];
+
+
+    for( int xxx = 0 ; xxx < n ; xxx++ ){
+        ahmet_num[xxx] = 0 ;
+    }
+    cout << "Ahmetin sayilarini giriniz " << endl;
+
+    while(i < n){
+        j = 0 ;
+        cout << i <<". ci sayi = " ;
+        cin >> ahmet_num[i] ;
+        if( ahmet_num[i] > 0 ){
+            for( int xx = 0 ; xx < n ; xx++ ){
+                if( i != xx ){
+                    if( ahmet_num[ i ] == ahmet_num[ xx ] ){
+                        cout << " ayni deger girdiniz , lutfen baska deger giriniz " <<endl;
+                        j = 1;
+                    }
+                }
+            }
+            if ( j !=1 ){
+                i++;
+            }
+        } else{
+            cout << "sayi pozitif olmali" << endl;
+        }
+
+    }
+
+	cout <<"Mehmet bir sayi secmeli"<<endl;
+	cin >> k ;
+
+	mergesort ( ahmet_num , 0 , n-1 );
+
+        for(i = 8 , j = 0 ; i > 0 || j < 8 ; j++ , i-- ){
+            if ( i != j ){
+                if( ahmet_num[i] + ahmet_num[j] == k ){
+                    count ++;
+                }
+                else if ( ahmet_num[i] + ahmet_num[j] > k ){
+                    j--;
+                }
+                else if ( ahmet_num[i] + ahmet_num[j] < k ){
+                    i++;
+                }
+            } else if ( i == j &&  ahmet_num[i] + ahmet_num[j] == k ){
+                count = ( count * 2 )+1 ;
+                break;
+            }
+            else{
+                count *=2 ;
+                break ;
+            }
+
+
+        }
+
+	cout << "Mehmet kazanma olasiligin " << endl;
+	cout << " % " << ((float)((float)count/(float)(n*n))*100) << endl ;
+	cout << " devam etmek istiyor musun (E/H)"<< endl;
+	cin >> eh;
+
+	if( (eh == 'e' ) || (eh == 'E') ){
+
+		cout << "Ahmetin " << endl;
+		cout << "Mehmet , Ahmet'in " << n  << " tane sayisi var. " << " 0 ile " << n-1 <<"  arasindan iki sayi sec " << endl;
+		cin >> c1 ;
+		cin >> c2 ;
+		if ( ( ahmet_num[ c1] + ahmet_num[ c2 ] ) == k ){
+			cout << "hadi yine iyisin kazandin" ;
+		}else{
+			cout << " uzgunum ama kaybettin  " ;
+		}
+
+	} else if ( (eh == 'h' ) || (eh == 'H') ){
+		cout << "Mehmet demek pes ettin  " << endl ;
+	} else {
+		cout << "yalnis girdiniz" << endl;
+	}
+
+}
+
+
